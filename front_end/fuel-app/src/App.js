@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import logo, { ReactComponent } from './logo.svg';
 import './App.css';
+import {GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
+
+
+function Map(){
+  return (
+    <GoogleMap  defaultZoom={10} defaultCenter={{lat:39.074207, lng:21.824312}} />
+  );
+}
+
+
+const WrappedMap = withScriptjs( withGoogleMap(Map) );
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{width : '100vw', height: '100vh'}} >
+
+      <WrappedMap 
+        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyBpnMGEp2wU9Ghe2FTFphqlEf3xijvtZF4"
+        loadingElement={<div style={{height:"100%"}}/>}
+        containerElement={<div style={{height:"100%"}}/>}
+        mapElement={<div style={{height:"100%"}}/>}
+      />
     </div>
+    
   );
 }
 
