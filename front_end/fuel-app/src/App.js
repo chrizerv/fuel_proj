@@ -1,9 +1,21 @@
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import "./App.css";
+import { Icon } from "leaflet";
+
+
+const skater = new Icon({
+  iconUrl: "./1.png",
+  iconSize: [25, 25]
+});
 
 
 function App() {
+
+
+
+
+
   return (
     <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
       <TileLayer
@@ -16,7 +28,7 @@ function App() {
          </Popup>
       </Marker>
 
-      <Marker position={[51.512, -0.09]}>
+      <Marker position={[51.512, -0.09]} icon={skater}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
