@@ -1,29 +1,28 @@
-import logo, { ReactComponent } from './logo.svg';
-import './App.css';
-import {GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps';
 
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import "./App.css";
 
-function Map(){
-  return (
-    <GoogleMap  defaultZoom={10} defaultCenter={{lat:39.074207, lng:21.824312}} />
-  );
-}
-
-
-const WrappedMap = withScriptjs( withGoogleMap(Map) );
 
 function App() {
   return (
-    <div style={{width : '100vw', height: '100vh'}} >
-
-      <WrappedMap 
-        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyBpnMGEp2wU9Ghe2FTFphqlEf3xijvtZF4"
-        loadingElement={<div style={{height:"100%"}}/>}
-        containerElement={<div style={{height:"100%"}}/>}
-        mapElement={<div style={{height:"100%"}}/>}
+    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
+      <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-    </div>
-    
+      <Marker position={[51.505, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+         </Popup>
+      </Marker>
+
+      <Marker position={[51.512, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    </MapContainer>
+
   );
 }
 
