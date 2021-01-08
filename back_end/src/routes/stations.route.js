@@ -4,6 +4,8 @@ const router = express.Router();
 const StationsController = require('../controllers/stations.controller');
 
 
-router.get('/:fuelTypeID', StationsController.getStationsAndPricesBySelectedFuel);
+router.get('/listandprices/:fuelTypeID', StationsController.getStationsAndPricesBySelectedFuel);
+
+//router.get('/numberofandstats/:fuelTypeID', StationsController.getStationsAndPricesBySelectedFuel);
 
 module.exports = router;

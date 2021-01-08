@@ -5,10 +5,10 @@ var Stations = {};
 Stations.getByFuelTypeIDwithPrices = (fuelTypeID, result) => {
 
  dbConnection.query('SELECT \
-  pricedata.gasStationID,gasStationLat ,gasStationLong,fuelNormalName,fuelPrice \
+  gasstations.gasStationID,gasStationLat ,gasStationLong,MIN(fuelPrice) as minFuelPrice \
   FROM gasstations,pricedata \
   WHERE gasstations.gasStationID=pricedata.gasStationID \
-  AND pricedata.fuelTypeID=?', fuelTypeID, (err, res) => {
+  AND pricedata.fuelTypeID=? GROUP BY gasstations.gasStationID,gasStationLat ,gasStationLong;', fuelTypeID, (err, res) => {
 
   if (err) {
    console.log("Error");
