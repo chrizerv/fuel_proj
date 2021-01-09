@@ -6,7 +6,7 @@ const StationsController = require('../controllers/stations.controller');
 
 router.get('/listandprices/:fuelTypeID', StationsController.getStationsAndPricesBySelectedFuel);
 
-//router.get('/numberandstats/:fuelTypeID', StationsController.getNumberOfStationsAndFuelStats);
+router.get('/numandstats/:fuelTypeID', StationsController.getNumberOfStationsAndFuelStats);
 
 
 
