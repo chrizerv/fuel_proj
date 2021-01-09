@@ -11,9 +11,11 @@ app.use(bodyParser.json());
 
 const stationsRoutes = require('./src/routes/stations.route');
 const pricedataRoutes = require('./src/routes/pricedata.route');
+const usersRoutes = require('./src/routes/users.route');
 
 app.use('/stations', stationsRoutes);
 app.use('/pricedata', pricedataRoutes);
+app.use('/users', usersRoutes);
 
 
 
