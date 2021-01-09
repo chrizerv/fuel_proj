@@ -1,0 +1,1 @@
+const PriceDataModel = require('../models/pricedata.model');

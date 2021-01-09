@@ -1,4 +1,4 @@
-const { reset } = require('nodemon');
+
 const StationsModel = require('../models/stations.model');
 
 
@@ -6,12 +6,26 @@ const StationsModel = require('../models/stations.model');
 
 exports.getStationsAndPricesBySelectedFuel = (req, res) => {
 
- StationsModel.getByFuelTypeIDwithPrices(req.params.fuelTypeID, (err, stations) => {
-  if (err)
-   res.send(err);
-  else
+  StationsModel.getByFuelTypeIDwithPrices(req.params.fuelTypeID, (err, rows) => {
+    if (err) {
+      console.log('WRONG');
+      res.send(err);
+    }
+    else
+      res.status(200).send(rows);
+  });
 
-   res.status(200).send(stations);
- });
+}
+
+exports.getNumberOfStationsAndFuelStats = (req, res) => {
+
+  StationsModel.getNumberWithFuelTypeStats(req.params.fuelTypeID, (err, rows) => {
+    if (err) {
+      console.log('WRONG');
+      res.send(err);
+    }
+    else
+      res.status(200).send(rows);
+  });
 
 }
