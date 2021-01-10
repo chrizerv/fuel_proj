@@ -21,6 +21,27 @@ Orders.createNew = (productID, username, quantity, result) => {
 
 }
 
+Orders.getByIdThatBelongsToOwner = (orderID, username, result) => {
+
+  dbConnection.query('\
+  SELECT orderID FROM users, gasstations, pricedata, orders\
+  WHERE users.username=? AND \
+  users.username = gasstations.username AND \
+  gasstations.gasStationID = pricedata.gasStationID AND \
+  pricedata.productID = orders.productID AND \
+  orders.orderID=?; \
+ ', [username, orderID], (err, res) => {
+
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
+
+}
+
 
 Orders.deleteById = (orderID, result) => {
 

@@ -1,5 +1,3 @@
-
-const e = require('express');
 const UsersModel = require('../models/users.model');
 
 
