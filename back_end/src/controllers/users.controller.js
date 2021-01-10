@@ -23,8 +23,8 @@ exports.loginAndGetUserToken = (req, res) => {
    bcrypt.compare(credentials.password, rows[0].hashedPassword, function (err, result) {
 
     if (result) {
-     token = { accessToken: generateUserJWT() };
-     res.send(token);
+     token = generateUserJWT(credentials.username);
+     res.send({ accessToken: token });
     } else
      res.status(401).send({ state: "Wrong Username or Password!" });
 
