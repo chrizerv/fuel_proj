@@ -5,18 +5,35 @@ var Users = {};
 
 Users.getUserHashedPassword = (username, result) => {
 
- dbConnection.query('\
+  dbConnection.query('\
   SELECT password as hashedPassword FROM users \
   WHERE username=?; \
   ', username, (err, res) => {
 
-  if (err) {
-   console.log("Error");
-   result(null, err);
-  } else
-   result(null, res);
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
 
- });
+  });
+
+}
+
+Users.getRole = (username, result) => {
+
+  dbConnection.query('\
+  SELECT role FROM users \
+  WHERE username=?; \
+  ', username, (err, res) => {
+
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
 
 }
 
