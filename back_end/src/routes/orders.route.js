@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authenticateJWT = require('../middlewares/authenticateJWT.middleware');
 const authorizeOwner = require('../middlewares/authorizeOwner.middleware');
-const isYourOrder = require('../middlewares/isOwnerOrder.middleware');
+const isYourOrder = require('../middlewares/isYourOrder.middleware');
 const OrdersController = require('../controllers/orders.controller');
 
 router.get('/', authenticateJWT, OrdersController.getUserOrders);

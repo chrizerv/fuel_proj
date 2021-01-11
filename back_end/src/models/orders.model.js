@@ -24,9 +24,9 @@ Orders.createNew = (productID, username, quantity, result) => {
 Orders.getByIdThatBelongsToOwner = (orderID, username, result) => {
 
   dbConnection.query('\
-  SELECT orderID FROM users, gasstations, pricedata, orders\
-  WHERE users.username=? AND \
-  users.username = gasstations.username AND \
+  SELECT orderID \
+  FROM gasstations, pricedata, orders\
+  WHERE gasstations.username=? AND \
   gasstations.gasStationID = pricedata.gasStationID AND \
   pricedata.productID = orders.productID AND \
   orders.orderID=?; \
@@ -66,9 +66,8 @@ Orders.getAllFromStationOwner = (username, result) => {
   dbConnection.query('\
   SELECT orders.orderID, orders.username, orders.quantity, \
   pricedata.productID, pricedata.fuelName, gasstations.gasStationID, gasstations.fuelCompNormalName \
-  FROM users, gasstations, pricedata, orders\
-  WHERE users.username=? AND \
-  users.username = gasstations.username AND \
+  FROM gasstations, pricedata, orders\
+  WHERE gasstations.username=? AND \
   gasstations.gasStationID = pricedata.gasStationID AND \
   pricedata.productID = orders.productID; \
  ', [username], (err, res) => {

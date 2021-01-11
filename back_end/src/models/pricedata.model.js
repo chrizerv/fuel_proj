@@ -39,5 +39,25 @@ PriceData.changePrice = (productID, newPrice, result) => {
 
 }
 
+PriceData.getByIdThatBelongsToOwner = (productID, username, result) => {
+
+  dbConnection.query('\
+  SELECT pricedata.productID \
+  FROM gasstations, pricedata \
+  WHERE gasstations.username = ? AND \
+  gasstations.gasStationID = pricedata.gasStationID AND \
+  pricedata.productID = ?; \
+', [username, productID], (err, res) => {
+
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
+
+}
+
 
 module.exports = PriceData;
