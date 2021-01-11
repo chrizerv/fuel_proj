@@ -1,12 +1,13 @@
 const Orders = require('../models/orders.model');
 const OrdersModel = require('../models/orders.model');
-
+const UsersModel = require('../models/users.model');
 
 exports.addNewOrder = (req, res) => {
 
   const orderData = req.body;
+  const authenticatedUser = req.user;
 
-  OrdersModel.createNew(orderData.productID, orderData.username, orderData.quantity, (err, rows) => {
+  OrdersModel.createNew(orderData.productID, authenticatedUser, orderData.quantity, (err, rows) => {
 
     if (err) {
       console.log('WRONG');
@@ -18,17 +19,48 @@ exports.addNewOrder = (req, res) => {
 
 }
 
-exports.getStationOrders = (req, res) => {
+exports.getUserOrders = (req, res) => {
 
-  OrdersModel.getByStationWhichBelongsToUsername(req.params.gasStationID, (err, rows) => {
+  const authenticatedUser = req.user;
+
+  UsersModel.getRole(authenticatedUser, (err, rows) => {
 
     if (err) {
       console.log('WRONG');
       res.send(err);
     }
-    else
-      res.status(200).send(rows);
-  });
+    else {
+
+      if (rows[0].role === 'stationOwner') {
+        OrdersModel.getAllFromStationOwner(authenticatedUser, (err, rows) => {
+
+          if (err) {
+            console.log('WRONG');
+            res.send(err);
+          }
+          else
+            res.status(200).send(rows)
+
+        });
+      }
+      if (rows[0].role === 'fuelConsumer') {
+        OrdersModel.getAllFromFuelConsumer(authenticatedUser, (err, rows) => {
+
+          if (err) {
+            console.log('WRONG');
+            res.send(err);
+          }
+          else
+            res.status(200).send(rows)
+
+        });
+      }
+
+
+
+    }
+
+  })
 
 }
 

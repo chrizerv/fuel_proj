@@ -61,6 +61,49 @@ Orders.deleteById = (orderID, result) => {
 }
 
 
+Orders.getAllFromStationOwner = (username, result) => {
+
+  dbConnection.query('\
+  SELECT orders.orderID, orders.username, orders.quantity, \
+  pricedata.productID, pricedata.fuelName, gasstations.gasStationID, gasstations.fuelCompNormalName \
+  FROM users, gasstations, pricedata, orders\
+  WHERE users.username=? AND \
+  users.username = gasstations.username AND \
+  gasstations.gasStationID = pricedata.gasStationID AND \
+  pricedata.productID = orders.productID; \
+ ', [username], (err, res) => {
+
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
+
+}
+
+Orders.getAllFromFuelConsumer = (username, result) => {
+
+  dbConnection.query('\
+  SELECT orders.orderID, orders.quantity, \
+  pricedata.productID, pricedata.fuelName, gasstations.gasStationID, gasstations.fuelCompNormalName \
+  FROM orders,pricedata,gasstations \
+  WHERE orders.username=? AND \
+  pricedata.productID = orders.productID AND \
+  gasstations.gasStationID = pricedata.gasStationID; \
+ ', [username], (err, res) => {
+
+    if (err) {
+      console.log("Error");
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
+
+}
+
 
 
 module.exports = Orders;
