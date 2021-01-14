@@ -15,9 +15,9 @@ export function ActionPanel(props) {
    <select onChange={(e) => {
     props.setFuelType(e.target.value);
    }}>
-    <option value="Unleaded 95">Unleaded 95</option>
-    <option value="Unleaded 100">Unleaded 100</option>
-    <option value="Diesel">Diesel</option>
+    <option value="1">Unleaded 95</option>
+    <option value="2">Unleaded 100</option>
+    <option value="4">Diesel</option>
    </select>
    <strong> Gas Stations:</strong>
    <span>12</span>
@@ -34,7 +34,7 @@ export function ActionPanel(props) {
     Log in
    </Button>
    <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
-   <Button>Log out</Button>
+   <Button onClick={() => { localStorage.setItem('auth-token', '') }}>Log out</Button>
   </>
 
  );
