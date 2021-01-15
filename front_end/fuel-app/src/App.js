@@ -62,7 +62,7 @@ function App() {
       <UserContext.Provider value={{ userData, setUserData }}>
         <div>Welcome <strong>{userData.user === 'kwstas' ? 'No logged in' : userData.user}</strong>!</div>
 
-        <ActionPanel setFuelType={setFuelType} />
+        <ActionPanel fuelType={fuelType} setFuelType={setFuelType} />
         <Map fuelType={fuelType} ></Map>
       </UserContext.Provider>
       {console.log('APP-render')}
