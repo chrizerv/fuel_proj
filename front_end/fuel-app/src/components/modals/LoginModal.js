@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
-import Axios from 'axios';
+import { axiosInstance } from '../axiosInstance';
+import { UserContext } from '../userContext';
 
 export function LoginModal({ show, handleClose }) {
 
+  const { setUserData } = useContext(UserContext);
   const [user, setUsername] = useState('');
   const [pass, setPassword] = useState('');
 
@@ -16,22 +18,29 @@ export function LoginModal({ show, handleClose }) {
     setPassword(e.target.value);
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const accessTokenRes = await Axios.post("http://localhost:5000/users/auth/token", {
+    const accessTokenResponse = await axiosInstance.post("/users/auth/token", {
       username: user,
       password: pass
     });
-    console.log(accessTokenRes);
+    console.log(accessTokenResponse);
+    localStorage.setItem('auth-token', accessTokenResponse.data.accessToken);
 
-    localStorage.setItem('auth-token', accessTokenRes.data.accessToken);
 
+    const userInfoResponse = await axiosInstance.get("/users/info", {
+      headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
+    });
 
+    setUserData({
+      token: accessTokenResponse.data.accessToken,
+      user: userInfoResponse.data.user,
+      role: userInfoResponse.data.role
+    });
 
     handleClose();
-
-
 
   }
 
@@ -50,7 +59,7 @@ export function LoginModal({ show, handleClose }) {
               <Form.Control type="username" placeholder="Enter username" value={user} onChange={handleUsername} />
               <Form.Text className="text-muted">
                 We'll never share your creds with anyone else.
-    </Form.Text>
+              </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
@@ -59,7 +68,7 @@ export function LoginModal({ show, handleClose }) {
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
-  </Button>
+            </Button>
           </Form>
 
         </Modal.Body>

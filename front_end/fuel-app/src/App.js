@@ -1,36 +1,31 @@
 import "./App.css";
 import { Icon } from "leaflet";
-import { useEffect, useState } from 'react';
-import Axios from 'axios';
+import { useEffect, useState, createContext } from 'react';
+import { axiosInstance } from './components/axiosInstance';
 import { ActionPanel } from './components/ActionPanel';
 import { Map } from './components/Map';
+import { UserContext } from './components/userContext';
 
 const cat = new Icon({
   iconUrl: "./cat-svgrepo-com.svg",
   iconSize: [50, 50]
 });
 
-Axios.interceptors.response.use(response => {
-  return response;
-}, error => {
-  if (error.response.status === 401) {
-    //place your reentry code
-    return "Unauthenticated"
-  }
-  return "WRONG";
-});
+
 
 
 function App() {
 
   const [userData, setUserData] = useState({
     token: undefined,
-    user: 'kwstas',
+    user: undefined,
     role: undefined
   });
 
+
+
   useEffect(() => {
-    console.log('EFFECT');
+    console.log('App-EFFECT');
 
     const checkLoggedIn = async () => {
       let token = localStorage.getItem('auth-token');
@@ -40,20 +35,18 @@ function App() {
       }
 
 
-      const tokenRes = await Axios.get("http://localhost:5000/users/info", {
+      const userInfoResponse = await axiosInstance.get("/users/info", {
         headers: { "Authorization": "Bearer " + token }
       });
 
 
-      if (tokenRes !== 'Unauthenticated') {
+      if (userInfoResponse !== 'Unauthenticated') {
         setUserData({
           token: token,
-          user: tokenRes.data.user,
-          role: tokenRes.data.role
+          user: userInfoResponse.data.user,
+          role: userInfoResponse.data.role
         });
       }
-
-
 
     }
 
@@ -63,15 +56,16 @@ function App() {
 
   const [fuelType, setFuelType] = useState("1");
 
-  console.log('changedfuel');
-
 
   return (
     <>
-      <div>Welcome <strong>{userData.user === 'kwstas' ? 'No logged in' : userData.user}</strong>!</div>
-      <ActionPanel setFuelType={setFuelType} />
-      <Map fuelType={fuelType} ></Map>
-      {console.log('HERE')}
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <div>Welcome <strong>{userData.user === 'kwstas' ? 'No logged in' : userData.user}</strong>!</div>
+
+        <ActionPanel setFuelType={setFuelType} />
+        <Map fuelType={fuelType} ></Map>
+      </UserContext.Provider>
+      {console.log('APP-render')}
     </>
 
   );

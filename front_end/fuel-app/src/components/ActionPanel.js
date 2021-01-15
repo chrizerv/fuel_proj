@@ -1,17 +1,34 @@
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { LoginModal } from './modals/LoginModal';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from './userContext';
+
 
 
 export function ActionPanel(props) {
 
+ const { setUserData } = useContext(UserContext);
  const [loginShow, setLoginShow] = useState(false);
 
- const handleLoginClose = () => setLoginShow(false);
- const handleLoginShow = () => setLoginShow(true);
+ const handleLoginClose = () => { setLoginShow(false) }
+ const handleLoginShow = () => { setLoginShow(true) }
+
+ const handleLogout = () => {
+  localStorage.setItem('auth-token', '')
+
+  setUserData({
+   token: undefined,
+   user: undefined,
+   role: undefined
+  });
+
+ }
+
+
 
  return (
   <>
+
    <select onChange={(e) => {
     props.setFuelType(e.target.value);
    }}>
@@ -19,6 +36,7 @@ export function ActionPanel(props) {
     <option value="2">Unleaded 100</option>
     <option value="4">Diesel</option>
    </select>
+
    <strong> Gas Stations:</strong>
    <span>12</span>
    <strong>  min:</strong>
@@ -34,7 +52,8 @@ export function ActionPanel(props) {
     Log in
    </Button>
    <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
-   <Button onClick={() => { localStorage.setItem('auth-token', '') }}>Log out</Button>
+   <Button onClick={handleLogout}>Log out</Button>
+
   </>
 
  );

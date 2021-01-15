@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import gasData from "../data/gas_data.json";
-import Axios from 'axios';
+import { axiosInstance } from './axiosInstance';
 import { useEffect, useState } from 'react';
 
 export function Map({ fuelType }) {
@@ -11,7 +10,7 @@ export function Map({ fuelType }) {
     console.log('MAP_EFFECT');
 
     const getGasStations = async () => {
-      const gasDataRes = await Axios.get("http://localhost:5000/stations/listandprices/" + fuelType);
+      const gasDataRes = await axiosInstance.get("/stations/listandprices/" + fuelType);
 
 
       setGasData(gasDataRes.data);
