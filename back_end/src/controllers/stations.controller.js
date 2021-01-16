@@ -29,3 +29,19 @@ exports.getNumberOfStationsAndFuelStats = (req, res) => {
   });
 
 }
+
+exports.getOwnerStations = (req, res) => {
+
+  const authenticatedUser = req.user;
+
+  StationsModel.getByUser(authenticatedUser, (err, rows) => {
+    if (err) {
+      console.log('WRONG');
+      res.send(err);
+    }
+    else
+      res.status(200).send(rows);
+  });
+
+
+}

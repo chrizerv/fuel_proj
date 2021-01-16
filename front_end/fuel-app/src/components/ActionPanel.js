@@ -1,5 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { LoginModal } from './modals/LoginModal';
+import { MyProductsModal } from './modals/MyProductsModal';
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from './userContext';
 import { axiosInstance } from './axiosInstance';
@@ -9,6 +10,7 @@ export function ActionPanel(props) {
 
  const { setUserData } = useContext(UserContext);
  const [loginShow, setLoginShow] = useState(false);
+ const [myProductsShow, setMyProductsShow] = useState(false);
 
  const [stationsStats, setStationsStats] = useState({
   numOfStations: undefined,
@@ -20,6 +22,9 @@ export function ActionPanel(props) {
 
  const handleLoginClose = () => { setLoginShow(false) }
  const handleLoginShow = () => { setLoginShow(true) }
+
+ const handleMyProductsClose = () => { setMyProductsShow(false) }
+ const handleMyProductsShow = () => { setMyProductsShow(true) }
 
  const handleLogout = () => {
   localStorage.setItem('auth-token', '')
@@ -82,12 +87,17 @@ export function ActionPanel(props) {
    <strong>  max:</strong>
    <span>{stationsStats.maxPrice}</span>
    <button>My Orders</button>
-   <Button>My Products</Button>
+
+   <Button variant="primary" onClick={handleMyProductsShow}>
+    My Products
+   </Button>
+   <MyProductsModal show={myProductsShow} handleClose={handleMyProductsClose}></MyProductsModal>
 
    <Button variant="primary" onClick={handleLoginShow}>
     Log in
    </Button>
    <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
+
    <Button onClick={handleLogout}>Log out</Button>
 
   </>

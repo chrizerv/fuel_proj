@@ -40,4 +40,20 @@ Stations.getNumberWithFuelTypeStats = (fuelTypeID, result) => {
 
 }
 
+Stations.getByUser = (username, result) => {
+
+  dbConnection.query(' \
+  SELECT gasStationID, fuelCompNormalName, gasStationOwner, gasStationAddress \
+   FROM gasstations \
+   WHERE username=? \
+  ;', username, (err, res) => {
+
+    if (err) {
+      result(null, err);
+    } else
+      result(null, res);
+
+  });
+}
+
 module.exports = Stations;

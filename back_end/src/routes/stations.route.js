@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const authenticateJWT = require('../middlewares/authenticateJWT.middleware');
 
 const StationsController = require('../controllers/stations.controller');
 
 
-//router.get('/ownerstations', StationsController.getOwnerStations);
+router.get('/ownerstations', authenticateJWT, StationsController.getOwnerStations);
 
 router.get('/listandprices/:fuelTypeID', StationsController.getStationsAndPricesBySelectedFuel);
 
