@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Modal, ListGroup, FormControl } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { axiosInstance } from '../axiosInstance';
@@ -22,14 +22,19 @@ export function MyProductsModal({ show, handleClose }) {
         headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
       });
 
+
+
       if (stationsResponse !== 'Unauthenticated') {
         setMyGasStations(stationsResponse.data);
         setSelectedStation(stationsResponse.data[0].gasStationID);
+      } else {
+        setMyGasStations(undefined);
+        setSelectedStation('');
       }
     }
 
     getGasStations();
-    
+
   }, [userData]);
 
 
@@ -47,7 +52,7 @@ export function MyProductsModal({ show, handleClose }) {
     }
 
     getProducts();
-  
+
   }, [selectedStation, newPrice]);
 
 

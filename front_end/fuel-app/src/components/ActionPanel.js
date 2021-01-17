@@ -35,6 +35,8 @@ export function ActionPanel(props) {
    role: undefined
   });
 
+
+
  }
 
  useEffect(() => {
@@ -86,7 +88,8 @@ export function ActionPanel(props) {
    <span>{stationsStats.avgPrice}</span>
    <strong>  max:</strong>
    <span>{stationsStats.maxPrice}</span>
-   <button>My Orders</button>
+
+   <Button variant="primary">My Orders</Button>
 
    <Button variant="primary" onClick={handleMyProductsShow}>
     My Products
