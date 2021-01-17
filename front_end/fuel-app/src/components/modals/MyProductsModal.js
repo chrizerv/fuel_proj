@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Button, Modal, ListGroup, FormControl } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { axiosInstance } from '../axiosInstance';
+import { UserContext } from '../userContext';
 
 export function MyProductsModal({ show, handleClose }) {
 
-  const [gasStations, setGasStations] = useState(undefined);
+  const { userData } = useContext(UserContext);
+  const [myGasStations, setMyGasStations] = useState(undefined);
   const [products, setProducts] = useState([]);
   const [selectedStation, setSelectedStation] = useState('');
   const [newPrice, setNewPrice] = useState('');
@@ -21,14 +23,14 @@ export function MyProductsModal({ show, handleClose }) {
       });
 
       if (stationsResponse !== 'Unauthenticated') {
-        setGasStations(stationsResponse.data);
+        setMyGasStations(stationsResponse.data);
         setSelectedStation(stationsResponse.data[0].gasStationID);
       }
     }
 
     getGasStations();
-    //rerender on login logout userdatacontext
-  }, []);
+    
+  }, [userData]);
 
 
 
@@ -45,7 +47,7 @@ export function MyProductsModal({ show, handleClose }) {
     }
 
     getProducts();
-    //rerender on login logout userdatacontext
+  
   }, [selectedStation, newPrice]);
 
 
@@ -62,11 +64,11 @@ export function MyProductsModal({ show, handleClose }) {
         </Modal.Header>
         <Modal.Body>
 
-          {gasStations !== undefined ?
+          {myGasStations !== undefined ?
             (<select onChange={(e) => {
               setSelectedStation(e.target.value);
             }}>
-              {gasStations.map((station) => {
+              {myGasStations.map((station) => {
                 return <option value={station.gasStationID}>{station.fuelCompNormalName + '---' + station.gasStationOwner}</option>
               })}
             </select>) : null}
