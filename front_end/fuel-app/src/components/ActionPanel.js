@@ -74,6 +74,8 @@ export function ActionPanel(props) {
  return (
   <>
 
+
+
    <select onChange={(e) => {
     props.setFuelType(e.target.value);
    }}>
@@ -86,32 +88,74 @@ export function ActionPanel(props) {
     <option value="7">Diesel(Heating oil) 500-1000 lt</option>
    </select>
 
-   <strong> Gas Stations:</strong>
+   <span className=" m-1 font-weight-bold">Gas Stations:</span>
    <span>{stationsStats.numOfStations}</span>
-   <strong>  min:</strong>
+   <span className=" m-1 font-weight-bold">min:</span>
    <span>{stationsStats.minPrice}</span>
-   <strong>  avg:</strong>
+   <span className=" m-1 font-weight-bold">avg:</span>
    <span>{stationsStats.avgPrice}</span>
-   <strong>  max:</strong>
+   <span className=" m-1 font-weight-bold">max:</span>
    <span>{stationsStats.maxPrice}</span>
 
-   <Button variant="primary" onClick={handleOrdersShow}>
-    My Orders
-    </Button>
-   {userData.role === 'stationOwner' ? <OwnerOrdersModal show={ordersShow} handleClose={handleOrdersClose} /> :
-    userData.role === 'fuelConsumer' ? <ConsumerOrdersModal show={ordersShow} handleClose={handleOrdersClose} /> : null}
-
-   <Button variant="primary" onClick={handleMyProductsShow}>
-    My Products
+   {userData.user === undefined ?
+    <>
+     <Button className="m-1" variant="primary" onClick={handleLoginShow}>
+      Log in
    </Button>
-   <MyProductsModal show={myProductsShow} handleClose={handleMyProductsClose}></MyProductsModal>
+     <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
+    </>
+    : null}
 
-   <Button variant="primary" onClick={handleLoginShow}>
-    Log in
+   {userData.user !== undefined ?
+    <>
+     <Button className="m-1" variant="primary" onClick={handleOrdersShow}>
+      My Orders
    </Button>
-   <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
 
-   <Button onClick={handleLogout}>Log out</Button>
+
+
+
+
+
+    </> : null}
+
+   {userData.role === 'stationOwner' ?
+    <>
+     <OwnerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
+     <MyProductsModal show={myProductsShow} handleClose={handleMyProductsClose}></MyProductsModal>
+     <Button className="m-1" variant="primary" onClick={handleMyProductsShow}>
+      My Products
+     </Button>
+
+     <Button className="m-1" onClick={handleLogout}>
+      Log out
+   </Button>
+
+
+    </> : null}
+
+   {userData.role === 'fuelConsumer' ?
+    <ConsumerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
+    : null}
+
+   {userData.user === undefined ? <span>Not logged in</span> : <span className=" m-1 font-weight-bold">{'Welcome: ' + userData.user}</span>}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </>
 

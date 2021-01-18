@@ -115,7 +115,7 @@ function ProductItem({ productID, name, price, setPrice }) {
     Name: {name}
     <br />
     Price:{editable ? <input type="text" value={changedValue} size="4" onChange={(e) => { setChangedValue(e.target.value) }} /> : price}
-    <Button onClick={() => {
+    <Button className="m-1" onClick={() => {
       if (editable) {
 
         axiosInstance.put("/pricedata/" + productID,
