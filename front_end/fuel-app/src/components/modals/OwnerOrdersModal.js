@@ -44,7 +44,7 @@ export function OwnerOrdersModal({ show, handleClose }) {
         <Modal.Body>
 
           {orders !== undefined ? (
-            <Table striped bordered hover size="sm">
+            <Table responsive striped bordered hover size="sm">
               <thead>
                 <tr>
                   <th>Station Name</th>

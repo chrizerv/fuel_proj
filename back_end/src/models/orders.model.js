@@ -85,8 +85,8 @@ Orders.getAllFromStationOwner = (username, result) => {
 Orders.getAllFromFuelConsumer = (username, result) => {
 
   dbConnection.query('\
-  SELECT orders.orderID, orders.quantity, \
-  pricedata.productID, pricedata.fuelName, gasstations.gasStationID, gasstations.fuelCompNormalName \
+  SELECT orders.orderID, orders.quantity, orders.when,\
+  pricedata.fuelName, CAST( pricedata.fuelPrice*orders.quantity AS DECIMAL(5,3)) as totalPrice, gasstations.gasStationAddress, gasstations.fuelCompNormalName \
   FROM orders,pricedata,gasstations \
   WHERE orders.username=? AND \
   pricedata.productID = orders.productID AND \

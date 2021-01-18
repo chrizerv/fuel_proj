@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import { LoginModal } from './modals/LoginModal';
 import { MyProductsModal } from './modals/MyProductsModal';
 import { OwnerOrdersModal } from './modals/OwnerOrdersModal';
+import { ConsumerOrdersModal } from './modals/ConsumerOrdersModal';
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from './userContext';
 import { axiosInstance } from './axiosInstance';
@@ -9,10 +10,10 @@ import { axiosInstance } from './axiosInstance';
 
 export function ActionPanel(props) {
 
- const { setUserData } = useContext(UserContext);
+ const { userData, setUserData } = useContext(UserContext);
  const [loginShow, setLoginShow] = useState(false);
  const [myProductsShow, setMyProductsShow] = useState(false);
- const [ownerOrdersShow, setOwnerOrdersShow] = useState(false);
+ const [ordersShow, setOrdersShow] = useState(false);
 
  const [stationsStats, setStationsStats] = useState({
   numOfStations: undefined,
@@ -28,8 +29,8 @@ export function ActionPanel(props) {
  const handleMyProductsClose = () => { setMyProductsShow(false) }
  const handleMyProductsShow = () => { setMyProductsShow(true) }
 
- const handleOwnerOrdersClose = () => { setOwnerOrdersShow(false) }
- const handleOwnerOrdersShow = () => { setOwnerOrdersShow(true) }
+ const handleOrdersClose = () => { setOrdersShow(false) }
+ const handleOrdersShow = () => { setOrdersShow(true) }
 
  const handleLogout = () => {
   localStorage.setItem('auth-token', '')
@@ -94,10 +95,11 @@ export function ActionPanel(props) {
    <strong>  max:</strong>
    <span>{stationsStats.maxPrice}</span>
 
-   <Button variant="primary" onClick={handleOwnerOrdersShow}>
+   <Button variant="primary" onClick={handleOrdersShow}>
     My Orders
     </Button>
-   <OwnerOrdersModal show={ownerOrdersShow} handleClose={handleOwnerOrdersClose} ></OwnerOrdersModal>
+   {userData.role === 'stationOwner' ? <OwnerOrdersModal show={ordersShow} handleClose={handleOrdersClose} /> :
+    userData.role === 'fuelConsumer' ? <ConsumerOrdersModal show={ordersShow} handleClose={handleOrdersClose} /> : null}
 
    <Button variant="primary" onClick={handleMyProductsShow}>
     My Products
