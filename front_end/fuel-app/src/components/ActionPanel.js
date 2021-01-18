@@ -74,8 +74,6 @@ export function ActionPanel(props) {
  return (
   <>
 
-
-
    <select onChange={(e) => {
     props.setFuelType(e.target.value);
    }}>
@@ -97,40 +95,15 @@ export function ActionPanel(props) {
    <span className=" m-1 font-weight-bold">max:</span>
    <span>{stationsStats.maxPrice}</span>
 
-   {userData.user === undefined ?
-    <>
-     <Button className="m-1" variant="primary" onClick={handleLoginShow}>
-      Log in
-   </Button>
-     <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
-    </>
-    : null}
-
-   {userData.user !== undefined ?
-    <>
-     <Button className="m-1" variant="primary" onClick={handleOrdersShow}>
-      My Orders
-   </Button>
-
-
-
-
-
-
-    </> : null}
 
    {userData.role === 'stationOwner' ?
     <>
+
      <OwnerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
      <MyProductsModal show={myProductsShow} handleClose={handleMyProductsClose}></MyProductsModal>
      <Button className="m-1" variant="primary" onClick={handleMyProductsShow}>
       My Products
      </Button>
-
-     <Button className="m-1" onClick={handleLogout}>
-      Log out
-   </Button>
-
 
     </> : null}
 
@@ -138,25 +111,26 @@ export function ActionPanel(props) {
     <ConsumerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
     : null}
 
-   {userData.user === undefined ? <span>Not logged in</span> : <span className=" m-1 font-weight-bold">{'Welcome: ' + userData.user}</span>}
+   {userData.user === undefined ?
+    <>
+     <Button className="m-1" variant="primary" onClick={handleLoginShow}>
+      Log in
+    </Button>
+     <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
+     <span>Not logged in</span>
+    </>
+    :
+    <>
+     <Button className="m-1" variant="primary" onClick={handleOrdersShow}>
+      My Orders
+    </Button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     <Button className="m-1" onClick={handleLogout}>
+      Log out
+    </Button>
+     <span className=" m-1 font-weight-bold">{'Welcome: ' + userData.user}</span>
+    </>
+   }
   </>
 
  );
