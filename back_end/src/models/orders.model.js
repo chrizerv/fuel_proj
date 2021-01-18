@@ -64,12 +64,12 @@ Orders.deleteById = (orderID, result) => {
 Orders.getAllFromStationOwner = (username, result) => {
 
   dbConnection.query('\
-  SELECT orders.orderID, orders.username, orders.quantity, \
-  pricedata.productID, pricedata.fuelName, gasstations.gasStationID, gasstations.fuelCompNormalName \
+  SELECT orders.orderID, orders.username, orders.quantity, orders.when,\
+  pricedata.fuelName, CAST( pricedata.fuelPrice*orders.quantity AS DECIMAL(5,3)) as totalPrice, gasstations.gasStationAddress, gasstations.fuelCompNormalName \
   FROM gasstations, pricedata, orders\
   WHERE gasstations.username=? AND \
   gasstations.gasStationID = pricedata.gasStationID AND \
-  pricedata.productID = orders.productID; \
+  pricedata.productID = orders.productID ORDER BY `when` ASC; \
  ', [username], (err, res) => {
 
     if (err) {

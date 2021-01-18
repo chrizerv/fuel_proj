@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { LoginModal } from './modals/LoginModal';
 import { MyProductsModal } from './modals/MyProductsModal';
+import { OwnerOrdersModal } from './modals/OwnerOrdersModal';
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from './userContext';
 import { axiosInstance } from './axiosInstance';
@@ -11,6 +12,7 @@ export function ActionPanel(props) {
  const { setUserData } = useContext(UserContext);
  const [loginShow, setLoginShow] = useState(false);
  const [myProductsShow, setMyProductsShow] = useState(false);
+ const [ownerOrdersShow, setOwnerOrdersShow] = useState(false);
 
  const [stationsStats, setStationsStats] = useState({
   numOfStations: undefined,
@@ -25,6 +27,9 @@ export function ActionPanel(props) {
 
  const handleMyProductsClose = () => { setMyProductsShow(false) }
  const handleMyProductsShow = () => { setMyProductsShow(true) }
+
+ const handleOwnerOrdersClose = () => { setOwnerOrdersShow(false) }
+ const handleOwnerOrdersShow = () => { setOwnerOrdersShow(true) }
 
  const handleLogout = () => {
   localStorage.setItem('auth-token', '')
@@ -89,7 +94,10 @@ export function ActionPanel(props) {
    <strong>  max:</strong>
    <span>{stationsStats.maxPrice}</span>
 
-   <Button variant="primary">My Orders</Button>
+   <Button variant="primary" onClick={handleOwnerOrdersShow}>
+    My Orders
+    </Button>
+   <OwnerOrdersModal show={ownerOrdersShow} handleClose={handleOwnerOrdersClose} ></OwnerOrdersModal>
 
    <Button variant="primary" onClick={handleMyProductsShow}>
     My Products
