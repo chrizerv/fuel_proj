@@ -1,4 +1,4 @@
-import { Marker, Popup } from 'react-leaflet';
+import { Marker, Popup, Table } from 'react-leaflet';
 import L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 import { useState } from 'react';
@@ -43,22 +43,30 @@ export function CustomMarker({ station }) {
     <br />
               Address: {station.gasStationAddress}
     <br />
-    {station.fuelName}
-    {productsCatalog !== undefined ?
-     (
-      productsCatalog.map((product) => {
-       return (
-        < >
-         {product.fuelName}
-         <br />
-         {product.fuelPrice}
-         <br />
-        </>)
-      })
-     )
-     : null
-    }
-
+    <br />
+    <span>Catalog</span>
+    <Table responsive striped bordered size="sm">
+      <thead>
+        <tr>
+          <th>Fuel</th>
+          <th>Price per lt</th>
+        </tr>
+      </thead>
+      <tbody>
+        {productsCatalog !== undefined ?
+        (
+          productsCatalog.map((product) => {
+          return (
+            <tr>
+              <td>{product.fuelName}</td>
+              <td>{product.fuelPrice}</td>
+            </tr>)
+          })
+        )
+        : null
+        }
+    </tbody>
+  </Table>
    </Popup>
 
   </Marker>
