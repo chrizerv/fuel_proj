@@ -1,23 +1,13 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+
 import { axiosInstance } from './axiosInstance';
 import { useEffect, useState } from 'react';
-import ReactDOMServer from 'react-dom/server';
 
+import { CustomMarker } from './CustomMarker';
 
-const icon = L.divIcon({
-  iconSize: new L.Point(52, 70),
-  html: ReactDOMServer.renderToString
-    (<div>
-      <img src="fico.ico" width="52" height="52" />
-      <p className="text-light bg-dark text-center">1.093</p>
-    </div>)
-});
 
 
 export function Map({ fuelType }) {
-
-
 
   const [gasData, setGasData] = useState([]);
 
@@ -45,28 +35,11 @@ export function Map({ fuelType }) {
       />
 
       {gasData.map((station) => {
-
-        return (<Marker
-          key={station.gasStationID}
-          position={[station.gasStationLat, station.gasStationLong]}
-          icon={icon}
-        >
-          <Popup>
-            <h2>{station.fuelCompNormalName}</h2>
-            <br />
-            Price: {station.minFuelPrice}
-            <br />
-            Owner: {station.gasStationOwner}
-            <br />
-            Address: {station.gasStationAddress}
-            <br />
-            {station.fuelName}
-
-          </Popup>
-
-        </Marker>)
-
-      })}
+        return (
+          <CustomMarker key={station.gasStationID} station={station} />
+        )
+      })
+      }
 
 
     </MapContainer>
