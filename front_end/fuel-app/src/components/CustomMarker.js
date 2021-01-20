@@ -1,12 +1,20 @@
-import { Marker, Popup, Table } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 import { useState } from 'react';
 import { axiosInstance } from './axiosInstance';
+import { Table, Button } from 'react-bootstrap';
+import { MakeAnOrderModal } from './modals/MakeAnOrderModal';
+
 
 export function CustomMarker({ station }) {
 
  const [productsCatalog, setProductsCatalog] = useState(undefined);
+ const [makeOrderShow, setMakeOrderShow] = useState(false);
+
+
+ const handleMakeOrderClose = () => { setMakeOrderShow(false) }
+ const handleMakeOrderShow = () => { setMakeOrderShow(true) }
 
 
  const getProductsCatalog = async (e) => {
@@ -43,30 +51,36 @@ export function CustomMarker({ station }) {
     <br />
               Address: {station.gasStationAddress}
     <br />
+              Phone: {station.phone1}
     <br />
-    <span>Catalog</span>
+    <br />
+
     <Table responsive striped bordered size="sm">
-      <thead>
-        <tr>
-          <th>Fuel</th>
-          <th>Price per lt</th>
-        </tr>
-      </thead>
-      <tbody>
-        {productsCatalog !== undefined ?
-        (
-          productsCatalog.map((product) => {
-          return (
-            <tr>
-              <td>{product.fuelName}</td>
-              <td>{product.fuelPrice}</td>
-            </tr>)
-          })
-        )
-        : null
-        }
-    </tbody>
-  </Table>
+     <thead>
+      <tr>
+       <th>Fuel</th>
+       <th>Price/lt</th>
+      </tr>
+     </thead>
+     <tbody>
+      {productsCatalog !== undefined ?
+       (
+        productsCatalog.map((product) => {
+         return (
+          <tr>
+           <td>{product.fuelName}</td>
+           <td>{product.fuelPrice}</td>
+          </tr>)
+        })
+       )
+       : null
+      }
+     </tbody>
+    </Table>
+    <Button onClick={handleMakeOrderShow}>Make an order</Button>
+    {productsCatalog !== undefined ?
+     <MakeAnOrderModal show={makeOrderShow} handleClose={handleMakeOrderClose} catalog={productsCatalog} />
+     : null}
    </Popup>
 
   </Marker>
