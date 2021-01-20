@@ -31,7 +31,7 @@ export function OwnerOrdersModal({ show, handleClose }) {
 
     getOrders();
 
-  }, [userData, orderRemoved]);
+  }, [userData, orderRemoved, show]);
 
 
 
