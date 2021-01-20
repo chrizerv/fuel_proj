@@ -8,13 +8,12 @@ Orders.createNew = (productID, username, quantity, result) => {
   dbConnection.query('\
  INSERT INTO orders (productID, username, quantity) \
  VALUES(?, ?, ?); \
- ', [productID, username, quantity], (err, res) => {
+ ', [productID, username, quantity], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -30,13 +29,12 @@ Orders.getByIdThatBelongsToOwner = (orderID, username, result) => {
   gasstations.gasStationID = pricedata.gasStationID AND \
   pricedata.productID = orders.productID AND \
   orders.orderID=?; \
- ', [username, orderID], (err, res) => {
+ ', [username, orderID], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -48,13 +46,12 @@ Orders.deleteById = (orderID, result) => {
   dbConnection.query('\
   DELETE FROM orders \
   WHERE orderID=?; \
- ', orderID, (err, res) => {
+ ', orderID, (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -70,13 +67,12 @@ Orders.getAllFromStationOwner = (username, result) => {
   WHERE gasstations.username=? AND \
   gasstations.gasStationID = pricedata.gasStationID AND \
   pricedata.productID = orders.productID ORDER BY `when` ASC; \
- ', [username], (err, res) => {
+ ', [username], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -91,13 +87,12 @@ Orders.getAllFromFuelConsumer = (username, result) => {
   WHERE orders.username=? AND \
   pricedata.productID = orders.productID AND \
   gasstations.gasStationID = pricedata.gasStationID; \
- ', [username], (err, res) => {
+ ', [username], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
