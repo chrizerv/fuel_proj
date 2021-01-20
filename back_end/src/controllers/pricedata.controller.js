@@ -2,11 +2,21 @@ const PriceDataModel = require('../models/pricedata.model');
 
 exports.getStationPriceList = (req, res) => {
 
-  PriceDataModel.getByStationID(req.params.gasStationID, (err, rows) => {
+  const urlParams = req.params;
+
+  if (!(urlParams.hasOwnProperty('gasStationID')  &&
+        Number.isInteger(urlParams.gasStationID)  &&
+        urlParams.gasStationID > 0 )
+      ){
+        res.status(400).send({message: "Bad url parameters"});
+        return;
+    }
+
+  PriceDataModel.getByStationID(urlParams.gasStationID, (err, rows) => {
 
     if (err) {
-      console.log('WRONG');
-      res.send(err);
+      console.log('getByStationID error');
+      res.status(500).send({message: "Internal Error"});
     }
     else
       res.status(200).send(rows);
@@ -16,11 +26,27 @@ exports.getStationPriceList = (req, res) => {
 
 exports.changeFuelPrice = (req, res) => {
 
-  PriceDataModel.changePrice(req.params.productID, req.body.newPrice, (err, rows) => {
+  const urlParams = req.params;
+  const bodyParams = req.body;
+
+  if (!(urlParams.hasOwnProperty('productID')     &&
+        bodyParams.hasOwnProperty('newPrice')     && 
+        Number.isInteger(urlParams.gasStationID)  &&
+        !isNaN(bodyParams.newPrice)               &&
+        urlParams.gasStationID > 0                &&
+        bodyParams.newPrice > 0)
+      ){
+        res.status(400).send({message: "Bad url/body parameters"});
+        return;
+    }
+
+
+
+  PriceDataModel.changePrice(urlParams.productID, bodyParams.newPrice, (err, rows) => {
 
     if (err) {
-      console.log('WRONG');
-      res.send(err);
+      console.log('changePrice error');
+      res.status(500).send({message: "Internal Error"});
     }
     else
       res.status(200).send(rows);

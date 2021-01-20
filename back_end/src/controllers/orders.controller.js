@@ -78,7 +78,7 @@ exports.deleteOrder = (req, res) => {
 
   const urlParams = req.params;
 
-  if (!(urlParams.hasOwnProperty('orderID') &&
+  if (!(urlParams.hasOwnProperty('orderID')  &&
         Number.isInteger(urlParams.orderID)  &&
         urlParams.orderID > 0 )
       ){
@@ -86,7 +86,7 @@ exports.deleteOrder = (req, res) => {
        return;
      }
 
-  OrdersModel.deleteById(req.params.orderID, (err, rows) => {
+  OrdersModel.deleteById(urlParams.orderID, (err, rows) => {
 
     if (err) {
       console.log('deleteByid error');

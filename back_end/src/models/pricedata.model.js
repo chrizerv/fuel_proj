@@ -9,13 +9,12 @@ PriceData.getByStationID = (gasStationID, result) => {
  SELECT productID, fuelTypeID, fuelSubTypeID, fuelName, fuelPrice \
  FROM pricedata \
  WHERE gasStationID=?; \
-', gasStationID, (err, res) => {
+', gasStationID, (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -27,13 +26,12 @@ PriceData.changePrice = (productID, newPrice, result) => {
   UPDATE pricedata \
   SET fuelPrice = ? \
   WHERE productID = ?; \
-', [newPrice, productID], (err, res) => {
+', [newPrice, productID], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -47,13 +45,12 @@ PriceData.getByIdThatBelongsToOwner = (productID, username, result) => {
   WHERE gasstations.username = ? AND \
   gasstations.gasStationID = pricedata.gasStationID AND \
   pricedata.productID = ?; \
-', [username, productID], (err, res) => {
+', [username, productID], (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
