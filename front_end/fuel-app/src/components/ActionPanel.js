@@ -73,7 +73,6 @@ export function ActionPanel(props) {
 
   return (
     <>
-
       <select onChange={(e) => {
         props.setFuelType(e.target.value);
       }}>
@@ -95,17 +94,15 @@ export function ActionPanel(props) {
       <span className=" m-1 font-weight-bold">max:</span>
       <span>{stationsStats.maxPrice}</span>
 
-
       {userData.role === 'stationOwner' ?
         <>
-
           <OwnerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
           <MyProductsModal show={myProductsShow} handleClose={handleMyProductsClose}></MyProductsModal>
           <Button className="m-1" variant="primary" onClick={handleMyProductsShow}>
             My Products
-     </Button>
-
+         </Button>
         </> : null}
+
 
       {userData.role === 'fuelConsumer' ?
         <ConsumerOrdersModal show={ordersShow} handleClose={handleOrdersClose} />
@@ -115,7 +112,7 @@ export function ActionPanel(props) {
         <>
           <Button className="m-1" variant="primary" onClick={handleLoginShow}>
             Log in
-    </Button>
+          </Button>
           <LoginModal show={loginShow} handleClose={handleLoginClose}></LoginModal>
           <span>Not logged in</span>
         </>
@@ -123,14 +120,14 @@ export function ActionPanel(props) {
         <>
           <Button className="m-1" variant="primary" onClick={handleOrdersShow}>
             My Orders
-    </Button>
-
+          </Button>
           <Button className="m-1" onClick={handleLogout}>
             Log out
-    </Button>
+          </Button>
           <span className=" m-1 font-weight-bold">{'Welcome: ' + userData.user}</span>
         </>
       }
+
     </>
 
   );

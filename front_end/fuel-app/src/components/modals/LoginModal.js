@@ -22,20 +22,26 @@ export function LoginModal({ show, handleClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const accessTokenResponse = await axiosInstance.post("/users/auth/token", {
-      username: user,
-      password: pass
-    });
-    console.log(accessTokenResponse);
-    localStorage.setItem('auth-token', accessTokenResponse.data.accessToken);
+    try {
+      const accessTokenResponse = await axiosInstance.post("/users/auth/token", {
+        username: user,
+        password: pass
+      });
 
+      console.log(accessTokenResponse);
+      localStorage.setItem('auth-token', accessTokenResponse.data.accessToken);
+
+
+    } catch (e) {
+      console.log('THE ERROR' + e);
+    }
 
     const userInfoResponse = await axiosInstance.get("/users/info", {
       headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
     });
 
     setUserData({
-      token: accessTokenResponse.data.accessToken,
+
       user: userInfoResponse.data.user,
       role: userInfoResponse.data.role
     });

@@ -7,12 +7,12 @@ export const axiosInstance = axios.create({
  timeout: 1000,
 });
 
-axiosInstance.interceptors.response.use(response => {
- return response;
-}, error => {
- if (error.response.status === 401) {
-  //place your reentry code
-  return "Unauthenticated"
- }
- return "WRONG";
-});
+// axiosInstance.interceptors.response.use(response => {
+//  return response;
+// }, error => {
+//  if (error.response.status === 401) {
+//   //place your reentry code
+//   return "Unauthenticated"
+//  }
+//  return "WRONG";
+// });

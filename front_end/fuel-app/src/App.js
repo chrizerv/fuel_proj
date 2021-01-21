@@ -6,12 +6,6 @@ import { ActionPanel } from './components/ActionPanel';
 import { Map } from './components/Map';
 import { UserContext } from './components/userContext';
 
-const cat = new Icon({
-  iconUrl: "./cat-svgrepo-com.svg",
-  iconSize: [50, 50]
-});
-
-
 
 
 function App() {
@@ -34,18 +28,20 @@ function App() {
         token = '';
       }
 
+      try {
+        const userInfoResponse = await axiosInstance.get("/users/info", {
+          headers: { "Authorization": "Bearer " + token }
+        })
 
-      const userInfoResponse = await axiosInstance.get("/users/info", {
-        headers: { "Authorization": "Bearer " + token }
-      });
-
-
-      if (userInfoResponse !== 'Unauthenticated') {
         setUserData({
           token: token,
           user: userInfoResponse.data.user,
           role: userInfoResponse.data.role
         });
+        console.log('I got  here');
+      } catch (e) {
+        //if there is no loggedIn user
+        console.log(e.toString());
       }
 
     }
