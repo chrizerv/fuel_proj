@@ -80,7 +80,7 @@ exports.getUserOrders = (req, res) => {
 exports.deleteOrder = (req, res) => {
 
   const urlParams = {
-    orderID: parseInt(req.params.orderID)
+    orderID: parseInt(req.params.orderID, 10)
   }
 
   if (!(urlParams.hasOwnProperty('orderID') &&

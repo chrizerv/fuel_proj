@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+
 function authenticateJWT(req, res, next) {
 
- const accessTokenSecret = process.env.SECRETEKEY;
+ const accessTokenSecret = process.env.SECRETKEY;
  const authHeader = req.headers.authorization;
 
  if (authHeader && authHeader.startsWith('Bearer ')) {

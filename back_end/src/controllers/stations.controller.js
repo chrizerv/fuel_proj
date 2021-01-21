@@ -32,7 +32,7 @@ exports.getStationsAndPricesBySelectedFuel = (req, res) => {
 exports.getNumberOfStationsAndFuelStats = (req, res) => {
 
   const urlParams = {
-    fuelTypeID: parseInt(req.params.fuelTypeID)
+    fuelTypeID: parseInt(req.params.fuelTypeID, 10)
   }
 
   if (!(urlParams.hasOwnProperty('fuelTypeID') &&

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 const UsersModel = require('../models/users.model');
 
 
@@ -13,7 +14,10 @@ exports.loginAndGetUserToken = (req, res) => {
   const credentials = req.body;
   const usernameRegex = /^[a-zA-Z0-9]+$/;
 
-  if (!usernameRegex.test(credentials.username)) {
+  if (!(credentials.hasOwnProperty('username') &&
+    credentials.hasOwnProperty('password') &&
+    usernameRegex.test(credentials.username))
+  ) {
     res.status(400).send({ message: "Wrong Username or Password!" });
     return;
   }

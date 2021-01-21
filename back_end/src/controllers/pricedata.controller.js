@@ -29,7 +29,7 @@ exports.getStationPriceList = (req, res) => {
 exports.changeFuelPrice = (req, res) => {
 
   const urlParams = {
-    productID: parseInt(req.params.productID)
+    productID: parseInt(req.params.productID, 10)
   };
   const bodyParams = req.body;
 
