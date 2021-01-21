@@ -9,13 +9,12 @@ Stations.getByFuelTypeIDwithPrices = (fuelTypeID, result) => {
   gasstations.gasStationAddress, gasstations.phone1,  gasStationLat ,gasStationLong,MIN(fuelPrice) as minFuelPrice \
   FROM gasstations,pricedata \
   WHERE gasstations.gasStationID=pricedata.gasStationID \
-  AND pricedata.fuelTypeID=? GROUP BY gasstations.gasStationID', fuelTypeID, (err, res) => {
+  AND pricedata.fuelTypeID=? GROUP BY gasstations.gasStationID', fuelTypeID, (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 }
@@ -29,12 +28,12 @@ Stations.getNumberWithFuelTypeStats = (fuelTypeID, result) => {
          FROM gasstations, pricedata \
          WHERE gasstations.gasStationID = pricedata.gasStationID \
          AND pricedata.fuelTypeID=?  GROUP BY gasstations.gasStationID) as stationsAndPrices \
-  ;', fuelTypeID, (err, res) => {
+  ;', fuelTypeID, (err, rows) => {
 
     if (err) {
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -46,12 +45,12 @@ Stations.getByUser = (username, result) => {
   SELECT gasStationID, fuelCompNormalName, gasStationOwner, gasStationAddress \
    FROM gasstations \
    WHERE username=? \
-  ;', username, (err, res) => {
+  ;', username, (err, rows) => {
 
     if (err) {
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 }

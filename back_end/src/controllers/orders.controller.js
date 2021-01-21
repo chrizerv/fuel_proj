@@ -4,8 +4,8 @@ const UsersModel = require('../models/users.model');
 exports.addNewOrder = (req, res) => {
 
   const orderData = {
-    productID: parseInt(req.body.productID),
-    quantity: parseInt(req.body.quantity)
+    productID: parseInt(req.body.productID, 10),
+    quantity: parseInt(req.body.quantity, 10)
   };
   const authenticatedUser = req.user;
 
@@ -98,6 +98,6 @@ exports.deleteOrder = (req, res) => {
       res.status(500).send({ message: "Internal Error" });
     }
     else
-      res.status(200).send(rows)
+      res.status(200).send({ message: "Order deleted" })
   });
 }

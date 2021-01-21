@@ -3,7 +3,7 @@ const PriceDataModel = require('../models/pricedata.model');
 exports.getStationPriceList = (req, res) => {
 
   const urlParams = {
-    gasStationID: parseInt(req.params.gasStationID)
+    gasStationID: parseInt(req.params.gasStationID, 10)
   }
 
   if (!(urlParams.hasOwnProperty('gasStationID') &&
@@ -51,7 +51,7 @@ exports.changeFuelPrice = (req, res) => {
       res.status(500).send({ message: "Internal Error" });
     }
     else
-      res.status(200).send(rows);
+      res.status(200).send({ message: "Price changed" });
 
   });
 

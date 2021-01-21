@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function authenticateJWT(req, res, next) {
 
- const accessTokenSecret = "secretsecretsecretsecretsecretsecret";
+ const accessTokenSecret = process.env.SECRETEKEY;
  const authHeader = req.headers.authorization;
 
  if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -10,14 +10,15 @@ function authenticateJWT(req, res, next) {
 
   jwt.verify(token, accessTokenSecret, (err, subject) => {
    if (err) {
-    return res.sendStatus(401);
+    return res.status(401).send({ message: "Unauthorized" });
    }
 
    req.user = subject.user;
    next();
   });
+
  } else {
-  res.sendStatus(401);
+  res.status(400).send({ message: "Bad Bearer token" });
  }
 
 }

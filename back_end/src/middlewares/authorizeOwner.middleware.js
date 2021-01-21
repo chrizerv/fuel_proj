@@ -3,15 +3,24 @@ const UsersModel = require('../models/users.model');
 
 function authorizeOwner(req, res, next) {
 
- UsersModel.getRole(req.user, (err, rows) => {
+  UsersModel.getRole(req.user, (err, rows) => {
 
-  if (rows[0].role === 'stationOwner') {
-   next();
+    if (err) {
+      console.log('getRole Error!');
+      res.status(500).send({ message: "Internal Error" });
+    }
+    else {
 
-  } else
-   res.sendStatus(403);
+      if (rows[0].role === 'stationOwner') {
+        next();
 
- });
+      } else
+        res.status(401).send({ message: "Unauthorized" });
+    }
+
+
+
+  });
 }
 
 module.exports = authorizeOwner;

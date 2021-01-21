@@ -8,13 +8,12 @@ Users.getUserHashedPassword = (username, result) => {
   dbConnection.query('\
   SELECT password as hashedPassword FROM users \
   WHERE username=?; \
-  ', username, (err, res) => {
+  ', username, (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 
@@ -25,13 +24,12 @@ Users.getRole = (username, result) => {
   dbConnection.query('\
   SELECT role FROM users \
   WHERE username=?; \
-  ', username, (err, res) => {
+  ', username, (err, rows) => {
 
     if (err) {
-      console.log("Error");
-      result(null, err);
+      result(true, err);
     } else
-      result(null, res);
+      result(false, rows);
 
   });
 

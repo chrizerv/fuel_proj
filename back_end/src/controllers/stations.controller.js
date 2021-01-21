@@ -6,10 +6,22 @@ const StationsModel = require('../models/stations.model');
 
 exports.getStationsAndPricesBySelectedFuel = (req, res) => {
 
-  StationsModel.getByFuelTypeIDwithPrices(req.params.fuelTypeID, (err, rows) => {
+  const urlParams = {
+    fuelTypeID: parseInt(req.params.fuelTypeID, 10)
+  }
+
+  if (!(urlParams.hasOwnProperty('fuelTypeID') &&
+    Number.isInteger(urlParams.fuelTypeID) &&
+    urlParams.fuelTypeID > 0)
+  ) {
+    res.status(400).send({ message: "Bad url parameters" });
+    return;
+  }
+
+  StationsModel.getByFuelTypeIDwithPrices(urlParams.fuelTypeID, (err, rows) => {
     if (err) {
-      console.log('WRONG');
-      res.send(err);
+      console.log('getByFuelTypeIDwithPrices error');
+      res.status(500).send({ message: "Internal Error" });
     }
     else
       res.status(200).send(rows);
@@ -19,10 +31,23 @@ exports.getStationsAndPricesBySelectedFuel = (req, res) => {
 
 exports.getNumberOfStationsAndFuelStats = (req, res) => {
 
-  StationsModel.getNumberWithFuelTypeStats(req.params.fuelTypeID, (err, rows) => {
+  const urlParams = {
+    fuelTypeID: parseInt(req.params.fuelTypeID)
+  }
+
+  if (!(urlParams.hasOwnProperty('fuelTypeID') &&
+    Number.isInteger(urlParams.fuelTypeID) &&
+    urlParams.fuelTypeID > 0)
+  ) {
+    res.status(400).send({ message: "Bad url parameters" });
+    return;
+  }
+
+
+  StationsModel.getNumberWithFuelTypeStats(urlParams.fuelTypeID, (err, rows) => {
     if (err) {
-      console.log('WRONG');
-      res.send(err);
+      console.log('getNumberWithFuelTypeStats error');
+      res.status(500).send({ message: "Internal Error" });
     }
     else
       res.status(200).send(rows);
@@ -36,8 +61,8 @@ exports.getOwnerStations = (req, res) => {
 
   StationsModel.getByUser(authenticatedUser, (err, rows) => {
     if (err) {
-      console.log('WRONG');
-      res.send(err);
+      console.log('getByUser error');
+      res.status(500).send({ message: "Internal Error" });
     }
     else
       res.status(200).send(rows);
