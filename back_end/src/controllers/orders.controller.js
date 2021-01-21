@@ -3,28 +3,31 @@ const UsersModel = require('../models/users.model');
 
 exports.addNewOrder = (req, res) => {
 
-  const orderData = req.body;
+  const orderData = {
+    productID: parseInt(req.body.productID),
+    quantity: parseInt(req.body.quantity)
+  };
   const authenticatedUser = req.user;
 
   if (!(orderData.hasOwnProperty('productID') &&
-        orderData.hasOwnProperty('quantity')  &&
-        Number.isInteger(orderData.productID) &&
-        Number.isInteger(orderData.quantity)  &&
-        orderData.productID > 0               &&
-        orderData.quantity > 0 )
-      ){
-       res.status(400).send({message: "Bad body parameters"});
-       return;
-     }
+    orderData.hasOwnProperty('quantity') &&
+    Number.isInteger(orderData.productID) &&
+    Number.isInteger(orderData.quantity) &&
+    orderData.productID > 0 &&
+    orderData.quantity > 0)
+  ) {
+    res.status(400).send({ message: "Bad body parameters" });
+    return;
+  }
 
   OrdersModel.createNew(orderData.productID, authenticatedUser, orderData.quantity, (err, rows) => {
 
     if (err) {
       console.log('CreateOrder Error!');
-      res.status(500).send({message: "Internal Error"});
+      res.status(500).send({ message: "Internal Error" });
     }
     else
-      res.status(201).send({message: "Order Created"});
+      res.status(201).send({ message: "Order Created" });
   });
 
 }
@@ -37,7 +40,7 @@ exports.getUserOrders = (req, res) => {
 
     if (err) {
       console.log('Get orders Error');
-      res.status(500).send({message: "Internal Error"});
+      res.status(500).send({ message: "Internal Error" });
     }
     else {
 
@@ -46,7 +49,7 @@ exports.getUserOrders = (req, res) => {
 
           if (err) {
             console.log('getAllFromStationOwner error');
-            res.status(500).send({message: "Internal Error"});
+            res.status(500).send({ message: "Internal Error" });
           }
           else
             res.status(200).send(rows);
@@ -58,7 +61,7 @@ exports.getUserOrders = (req, res) => {
 
           if (err) {
             console.log('getAllFromFuelConsumer error');
-            res.status(500).send({message: "Internal Error"});
+            res.status(500).send({ message: "Internal Error" });
           }
           else
             res.status(200).send(rows);
@@ -76,21 +79,23 @@ exports.getUserOrders = (req, res) => {
 
 exports.deleteOrder = (req, res) => {
 
-  const urlParams = req.params;
+  const urlParams = {
+    orderID: parseInt(req.params.orderID)
+  }
 
-  if (!(urlParams.hasOwnProperty('orderID')  &&
-        Number.isInteger(urlParams.orderID)  &&
-        urlParams.orderID > 0 )
-      ){
-       res.status(400).send({message: "Bad url parameters"});
-       return;
-     }
+  if (!(urlParams.hasOwnProperty('orderID') &&
+    Number.isInteger(urlParams.orderID) &&
+    urlParams.orderID > 0)
+  ) {
+    res.status(400).send({ message: "Bad url parameters" });
+    return;
+  }
 
   OrdersModel.deleteById(urlParams.orderID, (err, rows) => {
 
     if (err) {
       console.log('deleteByid error');
-      res.status(500).send({message: "Internal Error"});
+      res.status(500).send({ message: "Internal Error" });
     }
     else
       res.status(200).send(rows)
