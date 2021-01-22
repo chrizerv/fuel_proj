@@ -28,12 +28,12 @@ export function CustomMarker({ station }) {
 
 
   const icon = L.divIcon({
-    iconSize: new L.Point(52, 70),
+    iconSize: new L.Point(37, 53),
     html: ReactDOMServer.renderToString
-      (<div>
-        <img src="fico.ico" alt="gas station" width="52" height="52" />
+      (<>
+        <img src={'./logos/' + station.fuelCompID + '.png'} alt="gas station" width="35" height="35" />
         <p className="text-light bg-dark text-center">{station.minFuelPrice}</p>
-      </div>)
+      </>)
   });
 
   return (
