@@ -50,9 +50,7 @@ export function ActionPanel(props) {
 
     const loadNumAndStats = async () => {
 
-      const statsResponse = await axiosInstance.get("/stations/numandstats/" + props.fuelType, {
-        headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
-      });
+      const statsResponse = await axiosInstance.get("/stations/numandstats/" + props.fuelType);
 
 
       setStationsStats({

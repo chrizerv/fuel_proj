@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { axiosInstance } from '../axiosInstance';
-import { Button, Modal, ListGroup, FormControl } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 
 export function MakeAnOrderModal({ show, handleClose, catalog }) {
 
     const [selectedProduct, setSelectedProduct] = useState(catalog[0].productID);
     const [quantity, setQuantity] = useState('');
-
 
     const handleSubmit = async (e) => {
 
@@ -17,6 +16,10 @@ export function MakeAnOrderModal({ show, handleClose, catalog }) {
         }, {
             headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
         });
+        // If the order was not successfull, do not close the window
+        if (result.status !== 201)
+            return;
+
 
         handleClose();
     }
@@ -32,7 +35,7 @@ export function MakeAnOrderModal({ show, handleClose, catalog }) {
                         setSelectedProduct(e.target.value);
                     }}>
                         {catalog.map((product) => {
-                            return <option value={product.productID}>{product.fuelName + ' --- ' + product.fuelPrice}</option>
+                            return <option key={product.productID} value={product.productID}>{product.fuelName + ' --- ' + product.fuelPrice}</option>
                         })}
                     </select>
                     <br />

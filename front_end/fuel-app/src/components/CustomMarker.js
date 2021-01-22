@@ -20,7 +20,6 @@ export function CustomMarker({ station }) {
 
   const getProductsCatalog = async (e) => {
 
-
     const catalogRes = await axiosInstance.get("/pricedata/" + station.gasStationID);
 
     setProductsCatalog(catalogRes.data);
@@ -32,7 +31,7 @@ export function CustomMarker({ station }) {
     iconSize: new L.Point(52, 70),
     html: ReactDOMServer.renderToString
       (<div>
-        <img src="fico.ico" width="52" height="52" />
+        <img src="fico.ico" alt="gas station" width="52" height="52" />
         <p className="text-light bg-dark text-center">{station.minFuelPrice}</p>
       </div>)
   });
@@ -74,8 +73,7 @@ export function CustomMarker({ station }) {
                     </tr>)
                 })
               )
-              : null
-            }
+              : null}
           </tbody>
         </Table>
         {userData.role === 'fuelConsumer' ?

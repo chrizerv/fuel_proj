@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { axiosInstance } from '../axiosInstance';
 import { UserContext } from '../userContext';
@@ -9,6 +9,7 @@ export function LoginModal({ show, handleClose }) {
   const { setUserData } = useContext(UserContext);
   const [user, setUsername] = useState('');
   const [pass, setPassword] = useState('');
+  const [wrongCreds, setWrongCreds] = useState(false);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -33,7 +34,10 @@ export function LoginModal({ show, handleClose }) {
 
 
     } catch (e) {
-      console.log('THE ERROR' + e);
+      if (e.response.status === 400) {
+        setWrongCreds(true);
+      }
+      return;
     }
 
     const userInfoResponse = await axiosInstance.get("/users/info", {
@@ -41,7 +45,6 @@ export function LoginModal({ show, handleClose }) {
     });
 
     setUserData({
-
       user: userInfoResponse.data.user,
       role: userInfoResponse.data.role
     });
@@ -61,6 +64,9 @@ export function LoginModal({ show, handleClose }) {
 
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
+              {wrongCreds ?
+                <Alert variant='danger'>Wrong username or password!</Alert>
+                : null}
               <Form.Label>Username</Form.Label>
               <Form.Control type="username" placeholder="Enter username" value={user} onChange={handleUsername} />
               <Form.Text className="text-muted">

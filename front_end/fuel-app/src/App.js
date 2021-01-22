@@ -1,6 +1,5 @@
 import "./App.css";
-import { Icon } from "leaflet";
-import { useEffect, useState, createContext } from 'react';
+import { useEffect, useState } from 'react';
 import { axiosInstance } from './components/axiosInstance';
 import { ActionPanel } from './components/ActionPanel';
 import { Map } from './components/Map';
@@ -11,7 +10,6 @@ import { UserContext } from './components/userContext';
 function App() {
 
   const [userData, setUserData] = useState({
-    token: undefined,
     user: undefined,
     role: undefined
   });
@@ -34,14 +32,13 @@ function App() {
         })
 
         setUserData({
-          token: token,
           user: userInfoResponse.data.user,
           role: userInfoResponse.data.role
         });
-        console.log('I got  here');
+
       } catch (e) {
-        //if there is no loggedIn user
-        console.log(e.toString());
+        //if there is no loggedIn user or something else has gone wrong , do nothing
+
       }
 
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Modal, Table } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
+import { Modal, Table } from 'react-bootstrap';
+
 import { axiosInstance } from '../axiosInstance';
 import { UserContext } from '../userContext';
 
@@ -19,13 +19,7 @@ export function ConsumerOrdersModal({ show, handleClose }) {
         headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
       });
 
-
-
-      if (ordersResponse !== 'Unauthenticated') {
-        setOrders(ordersResponse.data);
-      } else {
-        setOrders(undefined);
-      }
+      setOrders(ordersResponse.data);
     }
 
     getOrders();
@@ -75,7 +69,9 @@ export function ConsumerOrdersModal({ show, handleClose }) {
                 })}
 
               </tbody>
-            </Table>) : null}
+            </Table>)
+
+            : null}
 
         </Modal.Body>
         <Modal.Footer>

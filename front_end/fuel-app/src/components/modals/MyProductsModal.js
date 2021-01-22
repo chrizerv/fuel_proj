@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Modal, ListGroup, FormControl } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
+import { Button, Modal, ListGroup } from 'react-bootstrap';
 import { axiosInstance } from '../axiosInstance';
 import { UserContext } from '../userContext';
 
@@ -9,7 +8,7 @@ export function MyProductsModal({ show, handleClose }) {
   const { userData } = useContext(UserContext);
   const [myGasStations, setMyGasStations] = useState(undefined);
   const [products, setProducts] = useState([]);
-  const [selectedStation, setSelectedStation] = useState('');
+  const [selectedStation, setSelectedStation] = useState(undefined);
   const [newPrice, setNewPrice] = useState('');
 
 
@@ -23,14 +22,9 @@ export function MyProductsModal({ show, handleClose }) {
       });
 
 
+      setMyGasStations(stationsResponse.data);
+      setSelectedStation(stationsResponse.data[0].gasStationID);
 
-      if (stationsResponse !== 'Unauthenticated') {
-        setMyGasStations(stationsResponse.data);
-        setSelectedStation(stationsResponse.data[0].gasStationID);
-      } else {
-        setMyGasStations(undefined);
-        setSelectedStation('');
-      }
     }
 
     getGasStations();
@@ -44,21 +38,18 @@ export function MyProductsModal({ show, handleClose }) {
 
     const getProducts = async () => {
 
-      const productsResponse = await axiosInstance.get("/pricedata/" + selectedStation, {
-        headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
-      });
+      if (selectedStation !== undefined) {
+        const productsResponse = await axiosInstance.get("/pricedata/" + selectedStation, {
+          headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
+        });
 
-      setProducts(productsResponse.data);
+        setProducts(productsResponse.data);
+      }
     }
 
     getProducts();
 
   }, [selectedStation, newPrice]);
-
-
-
-
-
 
 
   return (
@@ -74,7 +65,7 @@ export function MyProductsModal({ show, handleClose }) {
               setSelectedStation(e.target.value);
             }}>
               {myGasStations.map((station) => {
-                return <option value={station.gasStationID}>{station.fuelCompNormalName + '---' + station.gasStationOwner}</option>
+                return <option key={station.gasStationID} value={station.gasStationID}>{station.fuelCompNormalName + '---' + station.gasStationOwner}</option>
               })}
             </select>) : null}
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Modal, Table } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
 import { axiosInstance } from '../axiosInstance';
 import { UserContext } from '../userContext';
 
@@ -20,13 +19,8 @@ export function OwnerOrdersModal({ show, handleClose }) {
         headers: { "Authorization": "Bearer " + localStorage.getItem('auth-token') }
       });
 
+      setOrders(ordersResponse.data);
 
-
-      if (ordersResponse !== 'Unauthenticated') {
-        setOrders(ordersResponse.data);
-      } else {
-        setOrders(undefined);
-      }
     }
 
     getOrders();
