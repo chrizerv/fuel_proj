@@ -65,7 +65,7 @@ export function MyProductsModal({ show, handleClose }) {
               setSelectedStation(e.target.value);
             }}>
               {myGasStations.map((station) => {
-                return <option key={station.gasStationID} value={station.gasStationID}>{station.fuelCompNormalName + '---' + station.gasStationOwner}</option>
+                return <option key={station.gasStationID} value={station.gasStationID}>{station.fuelCompNormalName + '---' + station.gasStationAddress}</option>
               })}
             </select>) : null}
 

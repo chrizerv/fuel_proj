@@ -29,7 +29,7 @@ export function LoginModal({ show, handleClose }) {
         password: pass
       });
 
-      console.log(accessTokenResponse);
+
       localStorage.setItem('auth-token', accessTokenResponse.data.accessToken);
 
 

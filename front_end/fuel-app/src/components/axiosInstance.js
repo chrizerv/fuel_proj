@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export const axiosInstance = axios.create({
- baseURL: 'http://192.168.1.8:5000'
+ baseURL: 'https://2ba9956748c9.ngrok.io'
 });
 
 axiosInstance.interceptors.response.use(response => {
