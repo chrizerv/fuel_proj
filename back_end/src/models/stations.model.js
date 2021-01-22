@@ -6,7 +6,7 @@ Stations.getByFuelTypeIDwithPrices = (fuelTypeID, result) => {
 
   dbConnection.query('\
   SELECT gasstations.gasStationID,gasstations.fuelCompNormalName,gasstations.gasStationOwner,\
-  gasstations.gasStationAddress, gasstations.phone1,  gasStationLat ,gasStationLong,MIN(fuelPrice) as minFuelPrice \
+   gasstations.fuelCompID, gasstations.gasStationAddress, gasstations.phone1,  gasStationLat ,gasStationLong,MIN(fuelPrice) as minFuelPrice \
   FROM gasstations,pricedata \
   WHERE gasstations.gasStationID=pricedata.gasStationID \
   AND pricedata.fuelTypeID=? GROUP BY gasstations.gasStationID', fuelTypeID, (err, rows) => {
